@@ -21,6 +21,29 @@ const hideAllColorOptions = (optionsList) =>{
         optionsList[i].style.display = 'none';
     }
 }
+
+const showPunsThemeColors = (optionsList) => {
+    hideAllColorOptions(optionsList);
+
+    for(i = 0; i < optionsList.length; i ++){
+        currentOption = colorOptions[i]
+        if(currentOption.classList.value === 'puns'){
+            currentOption.style.display = 'block';
+        }
+    }
+}
+
+const showLoveThemeColors = (optionsList) => {
+    hideAllColorOptions(optionsList);
+
+    for(i = 0; i < optionsList.length; i ++){
+        currentOption = colorOptions[i]
+        if(currentOption.classList.value === 'love'){
+            currentOption.style.display = 'block';
+        }
+    }
+}
+
 hideAllColorOptions(colorOptions);
 
 
@@ -33,6 +56,15 @@ toggleOtherTitleInput = (input) => {
 }
 
 toggleOtherTitleInput(otherTitleInput);
+
+themeList.addEventListener('change', (event) => {
+    const target = event.target
+    if (target.value === 'js puns'){
+        showPunsThemeColors(colorOptions);        
+    }else{
+        showLoveThemeColors(colorOptions); 
+    }
+});
 
 jobTitleList.addEventListener('change', (event) => {
     const target = event.target
