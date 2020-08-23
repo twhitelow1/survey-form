@@ -12,11 +12,17 @@ const colorList = document.getElementById('color');
 const colorOptions = document.querySelectorAll('#color option');
 const themeList = document.querySelector('#design');
 const themeOptions = document.querySelectorAll('#design option');
-//Get Checkboxes
 const checkboxes = document.querySelectorAll('.activities input');
 const checkboxFieldset = document.querySelector('.activities');
 const labels = document.querySelectorAll('.activities label');
+const selectPaymentList = document.getElementById('payment');
+const paymentOptions = document.querySelectorAll('#payment option');
+const creditCardDiv = document.getElementById('credit-card');
+const paypalDiv = document.getElementById('paypal');
+const bitcoinDiv = document.getElementById('bitcoin')
 let totalCost = 0;
+
+
 
 /**
  * Creates the total price label.
@@ -99,6 +105,61 @@ const showThemeColors = (optionsList, theme) => {
     }
 }
 
+/**
+ * Toggle the otherTitle textbox visibility on and off
+ * @constructor {node list} input - the input to be toggled on or off
+ */
+const toggleOtherTitleInput = (input) => {
+    if (input.style.display === "none") {
+        input.style.display = "block";
+    } else {
+        input.style.display = "none";
+    }
+}
+
+const showElement = (element) => {
+    element.style.display = 'block';
+}
+
+const hideElement = (element) => {
+    element.style.display = 'none';
+}
+
+/**
+ * 
+ * 
+ */
+
+ const hidePayments = () => {
+        creditCardDiv.style.display = 'none';
+        paypalDiv.style.display = 'none';
+        bitcoinDiv.style.display = 'none';
+        return true;
+ }
+
+/**
+ * 
+ * 
+ */
+
+const showPayment = (payment) => {
+    switch (payment){
+        case 'creditcard':
+            hidePayments();
+            creditCardDiv.style.display = 'block';
+            break;
+        case 'paypal': 
+            hidePayments();
+            paypalDiv.style.display = 'block';
+            break;
+        case 'bitcoin':
+            hidePayments();
+            bitcoinDiv.style.display = 'block';
+            break;
+        default: 
+            hidePayments();
+    }
+}
 
 /**
  * Activities checkbox list Event Listener
@@ -130,18 +191,6 @@ document.querySelector('.activities').addEventListener('change', (e) => {
     updateTotalElement();
 });
 
-/**
- * Toggle the otherTitle textbox visibility on and off
- * @constructor {node list} input - the input to be toggled on or off
- */
-toggleOtherTitleInput = (input) => {
-    if (input.style.display === "none") {
-        input.style.display = "block";
-    } else {
-        input.style.display = "none";
-    }
-}
-
 
 /**
  *  Event Listener on the Design theme dropdown list
@@ -152,9 +201,16 @@ toggleOtherTitleInput = (input) => {
 themeList.addEventListener('change', (event) => {
     const target = event.target
     if (target.value === 'js puns'){
+        showElement(colorList);
+        hideAllColorOptions(colorOptions);
         showThemeColors(colorOptions, "puns");        
-    }else{
+    }else if (target.value === 'heart js'){
+        showElement(colorList);
+        hideAllColorOptions(colorOptions);
         showThemeColors(colorOptions, "love"); 
+    } else {
+        hideAllColorOptions(colorOptions);
+        hideElement(colorList);
     }
 });
 
@@ -175,8 +231,28 @@ jobTitleList.addEventListener('change', (event) => {
      }
 });
 
-createTotalElement();
+/**
+ *  Event Listener on the payment dropdown list
+ *  @param {node list} target - the element that triggered the event.
+ *  if the clicked design is 'js puns' then  run showThemeColors for puns theme
+ *  else showThemeColors for the love theme.
+ */
+selectPaymentList.addEventListener('change', (event) => {
+    const target = event.target
+    console.log(target.value)
+    if (target.value === 'credit card'){
+        showPayment('creditcard');        
+    }else if (target.value === 'paypal'){
+        showPayment('paypal');        
+    } else if(target.value === 'bitcoin') {
+        showPayment('bitcoin');        
+    }
+    console.log('Event handler workings')
+});
 
-hideAllColorOptions(colorOptions);
-
+createTotalElement(); // Create the total element when javascript is on so it can display total price after activities are checked
+paymentOptions[0].style.display = 'none'; // Hide the 'Select Payment Method' Option from being able to be selected
+hideAllColorOptions(colorOptions); // Hide all the color options until a theme is selectd
+hideElement(colorList);
 toggleOtherTitleInput(otherTitleInput);
+showPayment();
