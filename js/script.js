@@ -19,7 +19,9 @@ const selectPaymentList = document.getElementById('payment');
 const paymentOptions = document.querySelectorAll('#payment option');
 const creditCardDiv = document.getElementById('credit-card');
 const paypalDiv = document.getElementById('paypal');
-const bitcoinDiv = document.getElementById('bitcoin')
+const bitcoinDiv = document.getElementById('bitcoin');
+const nameInput = document.getElementById('name');
+const emailInput = document.getElementById('mail');
 let totalCost = 0;
 
 
@@ -250,9 +252,25 @@ selectPaymentList.addEventListener('change', (event) => {
     } else if(target.value === 'bitcoin') {
         showPayment('bitcoin');        
     }
-    console.log('Event handler workings')
 });
 
+const inputRegexTest = (regex, inputValue, input) => {
+    if(regex.test(inputValue)){
+        input.style.borderColor = 'initial';
+    } else {
+        input.style.borderColor = 'red';
+    }
+}
+
+
+
+nameInput.addEventListener('keydown', (e) => {
+    const target = e.target
+    console.log(target.value)
+    var regex = /^[a-zA-Z ]{2,30}$/;
+    inputRegexTest(regex, target.value, nameInput);
+    console.log('Event handler working');
+})
 
 createTotalElement(); // Create the total element when javascript is on so it can display total price after activities are checked
 paymentOptions[0].style.display = 'none'; // Hide the 'Select Payment Method' Option from being able to be selected
