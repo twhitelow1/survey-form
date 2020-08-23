@@ -68,7 +68,6 @@ const calculateTotal = (checkboxes) => {
             total += parseInt(checkbox.getAttribute('data-cost'));
         }
     })
-    
     return total;
 }
 
@@ -116,18 +115,19 @@ const toggleOtherTitleInput = (input) => {
         input.style.display = "none";
     }
 }
-
+// Set the element's display to block so it is visible.
 const showElement = (element) => {
     element.style.display = 'block';
 }
+/** Hide the html element that is passes into the function */
 
 const hideElement = (element) => {
     element.style.display = 'none';
 }
 
 /**
- * 
- * 
+ *  Hide all the payment options divs 
+ *  Used mostly to clear area before showing the div that is selected.
  */
 
  const hidePayments = () => {
@@ -138,28 +138,31 @@ const hideElement = (element) => {
  }
 
 /**
- * 
- * 
+ *  Show the payment option that is selected
+ *  @constructor {string} payment - string passed into function to set which payment method
+ *  depending on the case it clears the screen of previous payment option then uses showElement to make the
+ *  current slected form of payment visibile.
  */
 
 const showPayment = (payment) => {
     switch (payment){
         case 'creditcard':
             hidePayments();
-            creditCardDiv.style.display = 'block';
+            showElement(creditCardDiv);
             break;
         case 'paypal': 
             hidePayments();
-            paypalDiv.style.display = 'block';
+            showElement(paypalDiv);
             break;
         case 'bitcoin':
             hidePayments();
-            bitcoinDiv.style.display = 'block';
+            showElement(bitcoinDiv);
             break;
         default: 
             hidePayments();
     }
 }
+
 
 /**
  * Activities checkbox list Event Listener
@@ -178,11 +181,11 @@ document.querySelector('.activities').addEventListener('change', (e) => {
         if(checkboxType === clickedType && clicked !== checkbox){
             if(clicked.checked){
                 checkbox.disabled = true;
-                labels[i].style.textDecoration = "line-through";
+                labels[i].style.color = "grey";
                 
             } else {
                 checkbox.disabled = false;
-                labels[i].style.textDecoration = "none";
+                labels[i].style.color = 'inherit';
             }
         }
         i++;
@@ -201,13 +204,13 @@ document.querySelector('.activities').addEventListener('change', (e) => {
 themeList.addEventListener('change', (event) => {
     const target = event.target
     if (target.value === 'js puns'){
-        showElement(colorList);
         hideAllColorOptions(colorOptions);
-        showThemeColors(colorOptions, "puns");        
+        showThemeColors(colorOptions, "puns");  
+        showElement(colorList);      
     }else if (target.value === 'heart js'){
-        showElement(colorList);
         hideAllColorOptions(colorOptions);
         showThemeColors(colorOptions, "love"); 
+        showElement(colorList);
     } else {
         hideAllColorOptions(colorOptions);
         hideElement(colorList);
@@ -250,9 +253,11 @@ selectPaymentList.addEventListener('change', (event) => {
     console.log('Event handler workings')
 });
 
+
 createTotalElement(); // Create the total element when javascript is on so it can display total price after activities are checked
 paymentOptions[0].style.display = 'none'; // Hide the 'Select Payment Method' Option from being able to be selected
-hideAllColorOptions(colorOptions); // Hide all the color options until a theme is selectd
-hideElement(colorList);
-toggleOtherTitleInput(otherTitleInput);
-showPayment();
+hideAllColorOptions(colorOptions); // Hide all the color options until a theme is selected
+hideElement(themeOptions[0]); // Hide 'Select Theme' in the design theme select list.
+hideElement(colorList);     // hide the color list drop down box until a theme is selected
+hideElement(otherTitleInput); // hide otherTitleInput 
+showPayment();  // hide the payment since no payment selection was passed into function
