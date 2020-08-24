@@ -22,6 +22,7 @@ const paypalDiv = document.getElementById('paypal');
 const bitcoinDiv = document.getElementById('bitcoin');
 const nameInput = document.getElementById('name');
 const emailInput = document.getElementById('mail');
+const form = document.querySelector("form");
 let totalCost = 0;
 
 
@@ -66,7 +67,7 @@ const updateTotalElement = () => {
 const calculateTotal = (checkboxes) => {
     let total = 0;
     checkboxes.forEach(function (checkbox) {
-        if(checkbox.checked){
+        if (checkbox.checked) {
             total += parseInt(checkbox.getAttribute('data-cost'));
         }
     })
@@ -79,8 +80,8 @@ const calculateTotal = (checkboxes) => {
  * 
  */
 
-const hideAllColorOptions = (optionsList) =>{
-    for(i = 0; i < optionsList.length; i ++){
+const hideAllColorOptions = (optionsList) => {
+    for (i = 0; i < optionsList.length; i++) {
         optionsList[i].style.display = 'none';
     }
 }
@@ -98,9 +99,9 @@ const hideAllColorOptions = (optionsList) =>{
 const showThemeColors = (optionsList, theme) => {
     hideAllColorOptions(optionsList);
 
-    for(i = 0; i < optionsList.length; i ++){
+    for (i = 0; i < optionsList.length; i++) {
         currentOption = colorOptions[i]
-        if(currentOption.classList.value === theme){
+        if (currentOption.classList.value === theme) {
             currentOption.style.display = 'block';
         }
     }
@@ -132,12 +133,12 @@ const hideElement = (element) => {
  *  Used mostly to clear area before showing the div that is selected.
  */
 
- const hidePayments = () => {
-        creditCardDiv.style.display = 'none';
-        paypalDiv.style.display = 'none';
-        bitcoinDiv.style.display = 'none';
-        return true;
- }
+const hidePayments = () => {
+    creditCardDiv.style.display = 'none';
+    paypalDiv.style.display = 'none';
+    bitcoinDiv.style.display = 'none';
+    return true;
+}
 
 /**
  *  Show the payment option that is selected
@@ -147,12 +148,12 @@ const hideElement = (element) => {
  */
 
 const showPayment = (payment) => {
-    switch (payment){
+    switch (payment) {
         case 'creditcard':
             hidePayments();
             showElement(creditCardDiv);
             break;
-        case 'paypal': 
+        case 'paypal':
             hidePayments();
             showElement(paypalDiv);
             break;
@@ -160,7 +161,7 @@ const showPayment = (payment) => {
             hidePayments();
             showElement(bitcoinDiv);
             break;
-        default: 
+        default:
             hidePayments();
     }
 }
@@ -180,11 +181,11 @@ document.querySelector('.activities').addEventListener('change', (e) => {
     let i = 0;
     checkboxes.forEach(function (checkbox) {
         let checkboxType = checkbox.getAttribute('data-day-and-time');
-        if(checkboxType === clickedType && clicked !== checkbox){
-            if(clicked.checked){
+        if (checkboxType === clickedType && clicked !== checkbox) {
+            if (clicked.checked) {
                 checkbox.disabled = true;
                 labels[i].style.color = "grey";
-                
+
             } else {
                 checkbox.disabled = false;
                 labels[i].style.color = 'inherit';
@@ -205,13 +206,13 @@ document.querySelector('.activities').addEventListener('change', (e) => {
  */
 themeList.addEventListener('change', (event) => {
     const target = event.target
-    if (target.value === 'js puns'){
+    if (target.value === 'js puns') {
         hideAllColorOptions(colorOptions);
-        showThemeColors(colorOptions, "puns");  
-        showElement(colorList);      
-    }else if (target.value === 'heart js'){
+        showThemeColors(colorOptions, "puns");
+        showElement(colorList);
+    } else if (target.value === 'heart js') {
         hideAllColorOptions(colorOptions);
-        showThemeColors(colorOptions, "love"); 
+        showThemeColors(colorOptions, "love");
         showElement(colorList);
     } else {
         hideAllColorOptions(colorOptions);
@@ -228,12 +229,12 @@ themeList.addEventListener('change', (event) => {
  */
 jobTitleList.addEventListener('change', (event) => {
     const target = event.target
-    if (target.value === 'other'){
+    if (target.value === 'other') {
         toggleOtherTitleInput(otherTitleInput)
-        
-    } else{
-            otherTitleInput.style.display = "none";
-     }
+
+    } else {
+        otherTitleInput.style.display = "none";
+    }
 });
 
 /**
@@ -245,37 +246,66 @@ jobTitleList.addEventListener('change', (event) => {
 selectPaymentList.addEventListener('change', (event) => {
     const target = event.target
     console.log(target.value)
-    if (target.value === 'credit card'){
-        showPayment('creditcard');        
-    }else if (target.value === 'paypal'){
-        showPayment('paypal');        
-    } else if(target.value === 'bitcoin') {
-        showPayment('bitcoin');        
+    if (target.value === 'credit card') {
+        showPayment('creditcard');
+    } else if (target.value === 'paypal') {
+        showPayment('paypal');
+    } else if (target.value === 'bitcoin') {
+        showPayment('bitcoin');
     }
 });
 
+const emailValidator = () => {
+    const emailValue = emailInput.value;
+    const symbolIndex = emailValue.indexOf("@");
+    const periodIndex = emailValue.lastIndexOf(".");
+    if (symbolIndex > 1 && periodIndex > (symbolIndex + 1)) {
+        emailInput.style.borderColor = "inherit";
+        return true
+    } else {
+        emailInput.style.borderColor = "red";
+        return false
+    }
+}
+
+
 const inputRegexTest = (regex, inputValue, input) => {
-    if(regex.test(inputValue)){
+    if (regex.test(inputValue)) {
         input.style.borderColor = 'initial';
     } else {
         input.style.borderColor = 'red';
     }
 }
-
-
-
-nameInput.addEventListener('keydown', (e) => {
-    const target = e.target
-    console.log(target.value)
+const nameValidator = () => {
+    const name = nameInput.value
     var regex = /^[a-zA-Z ]{2,30}$/;
-    inputRegexTest(regex, target.value, nameInput);
+    inputRegexTest(regex, name, nameInput);
     console.log('Event handler working');
+}
+
+
+form.addEventListener('keyup', (e) => {
+    if (!emailValidator()) {
+        e.preventDefault();
+    }
+    if (!nameValidator()) {
+        e.preventDefault();
+    }
+
 })
+
+form.addEventListener('submit', (e) => {
+    if (!emailValidator()) {
+        e.preventDefault();
+    }
+})
+
+
 
 createTotalElement(); // Create the total element when javascript is on so it can display total price after activities are checked
 paymentOptions[0].style.display = 'none'; // Hide the 'Select Payment Method' Option from being able to be selected
 hideAllColorOptions(colorOptions); // Hide all the color options until a theme is selected
 hideElement(themeOptions[0]); // Hide 'Select Theme' in the design theme select list.
-hideElement(colorList);     // hide the color list drop down box until a theme is selected
+hideElement(colorList); // hide the color list drop down box until a theme is selected
 hideElement(otherTitleInput); // hide otherTitleInput 
-showPayment();  // hide the payment since no payment selection was passed into function
+showPayment(); // hide the payment since no payment selection was passed into function
