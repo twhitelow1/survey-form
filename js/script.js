@@ -31,6 +31,10 @@ const cvv = document.querySelector('#cvv');
 const ccLabel = document.querySelector('label[for="cc-num"]');
 const zipLabel = document.querySelector('label[for="zip"]');
 const cvvLabel = document.querySelector('label[for="cvv"]');
+const creditCard = document.getElementById('credit-card');
+const zipCol = document.querySelector('#zip-col');
+const cardCol = document.querySelector('#card-col');
+const cvvCol = document.querySelector('#cvv-col');
 
 let totalCost = 0;
 
@@ -38,7 +42,7 @@ let totalCost = 0;
 
 /**
  * Creates the total price label.
- * @constructor
+ *
  * @param {html node} label - Label node.
  * @param {html node} att - attribute for the label.
  * @param {text node} node - the text that is default for the node
@@ -55,6 +59,24 @@ const createTotalElement = () => {
     return label
 }
 
+/**  Creates an error msg label html node.
+ *
+ * @param {html node} parentElement - the parent element that the error msg with append to.
+ * @param {string} msg - error message that will be display, can be left blank 
+ */
+const createErrorLabel = (parentElement, referenceNode, msg) => {
+    const label = document.createElement("label");
+    const att = document.createAttribute("class");
+    const id = document.createAttribute("id");
+    id.value = "cc-error";
+    att.value = "error";
+    label.setAttributeNode(id);
+    label.setAttributeNode(att);
+    const node = document.createTextNode(msg);
+    label.appendChild(node);
+    parentElement.insertBefore(label, referenceNode);
+    return label
+}
 
 /**
  * Updates the total price label.
@@ -256,7 +278,6 @@ selectPaymentList.addEventListener('change', (event) => {
     const target = event.target
     console.log(target.value)
     if (target.value === 'credit card') {
-
         showPayment('creditcard');
     } else if (target.value === 'paypal') {
         showPayment('paypal');
@@ -291,16 +312,14 @@ const cardNumberValidator = () => {
     if (regex.test(ccNumValue)) {
         ccLabel.style.color = "initial";
         ccNum.style.borderColor = "initial"
-        ccLabel.innerHTML = "Card Number:"
+        ccError.innerHTML = ""
         return true
     } else {
         ccNum.style.borderColor = "red"
-        ccLabel.style.color = "red";
-        console.log(ccNumValue.length)
         if (ccNumValue.length <= 0) {
-            ccLabel.innerHTML = "Card Number: <br> Please enter a credit card number."
+            ccError.innerHTML = "Please enter a credit card number."
         } else {
-            ccLabel.innerHTML = "Card Number: <br> Please enter 13-16 digit card number."
+            ccError.innerHTML = "Please enter 13-16 digit card number."
         }
         return false
     }
@@ -394,6 +413,7 @@ form.addEventListener('submit', (e) => {
 })
 
 
+const ccError = createErrorLabel(creditCard, cardCol, '');
 
 createTotalElement(); // Create the total element when javascript is on so it can display total price after activities are checked
 paymentOptions[0].style.display = 'none'; // Hide the 'Select Payment Method' Option from being able to be selected

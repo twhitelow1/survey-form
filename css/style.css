@@ -5,7 +5,7 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito|Roboto+Mono');
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 body,
@@ -15,13 +15,13 @@ button {
 }
 
 body {
-  font: 1em/1.5;
-  color: rgba(6, 49, 68, 0.9);
+	font: 1em/1.5;
+	color: rgba(6, 49, 68, 0.9);
 	background: #CDE0FB;
 }
 
 header {
-	text-align: center;  
+	text-align: center;
 }
 
 h1 {
@@ -31,7 +31,7 @@ h1 {
 }
 
 a {
-  text-decoration: none;
+	text-decoration: none;
 }
 
 /* ================================= 
@@ -58,7 +58,7 @@ fieldset {
 
 legend,
 button {
-	font-size: 1.25em;	
+	font-size: 1.25em;
 }
 
 legend {
@@ -82,7 +82,7 @@ label {
 
 input,
 select {
-	margin-bottom: 1.125em;	
+	margin-bottom: 1.125em;
 }
 
 input {
@@ -121,8 +121,8 @@ button:hover {
 	background: #6F9DDC;
 }
 
-input, 
-select, 
+input,
+select,
 option {
 	font-family: 'roboto', sans-serif;
 }
@@ -174,10 +174,15 @@ option {
 	display: none;
 }
 
+.error {
+	color: red;
+	padding-top: 1px;
+}
+
 .clearfix::after {
-  content: " ";
-  display: table;
-  clear: both;
+	content: " ";
+	display: table;
+	clear: both;
 }
 
 /* ================================= 
@@ -188,6 +193,7 @@ option {
 	header {
 		padding: 2em 0;
 	}
+
 	button {
 		width: 100%;
 	}
@@ -197,15 +203,19 @@ option {
 	header {
 		padding: 4.65em 0 2.5em;
 	}
+
 	.col {
 		float: left;
 	}
-	.col + .col {
+
+	.col+.col {
 		margin-left: 2.5%;
 	}
+
 	.col-3 {
 		width: 23%;
 	}
+
 	.col-6 {
 		width: 49%;
 	}
