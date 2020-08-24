@@ -8,12 +8,14 @@ const jobTitleList = document.getElementById('title');
 const otherJobTitleSelected = jobTitleList.options[5];
 const jobRoleOptions = document.querySelectorAll('#title option');
 const jobTitleOther = jobRoleOptions[5];
+const colorDiv = document.getElementById('colors-js-puns');
 const colorList = document.getElementById('color');
 const colorOptions = document.querySelectorAll('#color option');
 const themeList = document.querySelector('#design');
 const themeOptions = document.querySelectorAll('#design option');
 const checkboxes = document.querySelectorAll('.activities input');
 const checkboxFieldset = document.querySelector('.activities');
+const checkboxLegend = document.querySelector('.activities legend')
 const labels = document.querySelectorAll('.activities label');
 const selectPaymentList = document.getElementById('payment');
 const paymentOptions = document.querySelectorAll('#payment option');
@@ -23,6 +25,13 @@ const bitcoinDiv = document.getElementById('bitcoin');
 const nameInput = document.getElementById('name');
 const emailInput = document.getElementById('mail');
 const form = document.querySelector("form");
+const ccNum = document.querySelector('#cc-num');
+const zip = document.querySelector('#zip');
+const cvv = document.querySelector('#cvv');
+const ccLabel = document.querySelector('label[for="cc-num"]');
+const zipLabel = document.querySelector('label[for="zip"]');
+const cvvLabel = document.querySelector('label[for="cvv"]');
+
 let totalCost = 0;
 
 
@@ -209,14 +218,14 @@ themeList.addEventListener('change', (event) => {
     if (target.value === 'js puns') {
         hideAllColorOptions(colorOptions);
         showThemeColors(colorOptions, "puns");
-        showElement(colorList);
+        showElement(colorDiv);
     } else if (target.value === 'heart js') {
         hideAllColorOptions(colorOptions);
         showThemeColors(colorOptions, "love");
-        showElement(colorList);
+        showElement(colorDiv);
     } else {
         hideAllColorOptions(colorOptions);
-        hideElement(colorList);
+        hideElement(colorDiv);
     }
 });
 
@@ -247,6 +256,7 @@ selectPaymentList.addEventListener('change', (event) => {
     const target = event.target
     console.log(target.value)
     if (target.value === 'credit card') {
+
         showPayment('creditcard');
     } else if (target.value === 'paypal') {
         showPayment('paypal');
@@ -254,6 +264,7 @@ selectPaymentList.addEventListener('change', (event) => {
         showPayment('bitcoin');
     }
 });
+
 
 const emailValidator = () => {
     const emailValue = emailInput.value;
@@ -267,7 +278,59 @@ const emailValidator = () => {
         return false
     }
 }
+const cardInfoValidator = () => {
+    cardNumberValidator();
+    cvvValidator();
+    zipValidator();
+    return true
+}
 
+const cardNumberValidator = () => {
+    const ccNumValue = ccNum.value;
+    let regex = /^[1-9][0-9]{12,15}$/
+    if (regex.test(ccNumValue)) {
+        ccLabel.style.color = "initial";
+        ccNum.style.borderColor = "initial"
+        ccLabel.innerHTML = "Card Number:"
+        return true
+    } else {
+        ccNum.style.borderColor = "red"
+        ccLabel.style.color = "red";
+        console.log(ccNumValue.length)
+        if (ccNumValue.length <= 0) {
+            ccLabel.innerHTML = "Card Number: <br> Please enter a credit card number."
+        } else {
+            ccLabel.innerHTML = "Card Number: <br> Please enter 13-16 digit card number."
+        }
+        return false
+    }
+
+}
+
+const cvvValidator = () => {
+    const cvvValue = cvv.value;
+    let regex = /^\d{3}$/
+    if (regex.test(cvvValue)) {
+        cvv.style.borderColor = "initial"
+        return true
+    } else {
+        cvv.style.borderColor = "red"
+        return false
+    }
+}
+
+const zipValidator = () => {
+    const zipValue = zip.value;
+    let regex = /^\d{5}$/
+    if (regex.test(zipValue)) {
+        zip.style.borderColor = "initial"
+        return true
+    } else {
+        zip.style.borderColor = "red"
+        return false
+    }
+
+}
 
 const inputRegexTest = (regex, inputValue, input) => {
     if (regex.test(inputValue)) {
@@ -283,12 +346,42 @@ const nameValidator = () => {
     console.log('Event handler working');
 }
 
+const activityValidator = () => {
+    for (let i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            console.log("A box is checked");
+            checkboxLegend.style.color = "inherit";
+            return true;
+        }
+    }
+    console.log("No box checked");
+    checkboxLegend.style.color = "red";
+    return false
+}
+
+checkboxFieldset.addEventListener('change', (e) => {
+    if (!emailValidator()) {
+        e.preventDefault();
+    }
+    if (!nameValidator()) {
+        e.preventDefault();
+    }
+    if (!activityValidator()) {
+        e.preventDefault();
+    }
+})
 
 form.addEventListener('keyup', (e) => {
     if (!emailValidator()) {
         e.preventDefault();
     }
     if (!nameValidator()) {
+        e.preventDefault();
+    }
+    if (!activityValidator()) {
+        e.preventDefault();
+    }
+    if (!cardInfoValidator()) {
         e.preventDefault();
     }
 
@@ -306,6 +399,6 @@ createTotalElement(); // Create the total element when javascript is on so it ca
 paymentOptions[0].style.display = 'none'; // Hide the 'Select Payment Method' Option from being able to be selected
 hideAllColorOptions(colorOptions); // Hide all the color options until a theme is selected
 hideElement(themeOptions[0]); // Hide 'Select Theme' in the design theme select list.
-hideElement(colorList); // hide the color list drop down box until a theme is selected
+hideElement(colorDiv); // hide the color list drop down box until a theme is selected
 hideElement(otherTitleInput); // hide otherTitleInput 
 showPayment(); // hide the payment since no payment selection was passed into function
