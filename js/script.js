@@ -289,7 +289,7 @@ const emailValidator = () => {
  * @function cardNumberValidator = check cardNumber input and return true if valid and false if not
  * @function zipValidator = check zip code input and return true if valid and false if not
  * @function cvvValidator = check cvv # input and return true if valid and false if not
- * @return true when done
+ * @return true when done  
  */
 
 const cardInfoValidator = () => {
