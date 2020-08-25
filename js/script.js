@@ -190,100 +190,9 @@ const showPayment = (payment) => {
 };
 
 /**
- *  Event Listeners for hiding/showing inputs in the form
- *  Meant to create conditional interactivity in the form
- */
-
-/**
- * Event Listener for activities checkboxs
- * When a checkbox for an activity is check the other activities at that date
- * and time are disabled and the descritiption text is given a line-through it.
- * the
- * @constructor
- * @param {html node} totalElement - The html element that shows the total price.
- */
-checkboxFieldset.addEventListener("change", (e) => {
-    const clicked = e.target;
-    const clickedType = clicked.getAttribute("data-day-and-time");
-    let i = 0;
-    checkboxes.forEach(function (checkbox) {
-        let checkboxType = checkbox.getAttribute("data-day-and-time");
-        if (checkboxType === clickedType && clicked !== checkbox) {
-            if (clicked.checked) {
-                checkbox.disabled = true;
-                labels[i].style.color = "grey";
-            } else {
-                checkbox.disabled = false;
-                labels[i].style.color = "inherit";
-            }
-        }
-        i++;
-    });
-    totalCost = calculateTotal(checkboxes);
-    updateTotalElement();
-});
-
-/**
- *  Event Listener on the Design theme dropdown list
- *  @param {node list} target - the element that triggered the event.
- *  if the clicked design is 'js puns' then  run showThemeColors for puns theme
- *  else showThemeColors for the love theme.
- */
-themeList.addEventListener("change", (event) => {
-    const target = event.target;
-    if (target.value === "js puns") {
-        hideAllColorOptions(colorOptions);
-        showThemeColors(colorOptions, "puns");
-        showElement(colorDiv);
-    } else if (target.value === "heart js") {
-        hideAllColorOptions(colorOptions);
-        showThemeColors(colorOptions, "love");
-        showElement(colorDiv);
-    } else {
-        hideAllColorOptions(colorOptions);
-        hideElement(colorDiv);
-    }
-});
-
-/**
- *  Event Listener on the Job Title dropdown list
- *  IF the option selected in the dropdown list is other
- *  then toggle the other job title input box to visible
- *  else hide the job title input box.
- * @constructor {node list} input - the input to be toggled on or off
- */
-jobTitleList.addEventListener("change", (event) => {
-    const target = event.target;
-    if (target.value === "other") {
-        toggleOtherTitleInput(otherTitleInput);
-    } else {
-        otherTitleInput.style.display = "none";
-    }
-});
-
-/**
- *  Event Listener on the payment dropdown list
- *  @param {node list} target - the element that triggered the event.
- *  if the clicked design is 'js puns' then  run showThemeColors for puns theme
- *  else showThemeColors for the love theme.
- */
-selectPaymentList.addEventListener("change", (event) => {
-    const target = event.target;
-    console.log(target.value);
-    if (target.value === "credit card") {
-        showPayment("creditcard");
-    } else if (target.value === "paypal") {
-        showPayment("paypal");
-    } else if (target.value === "bitcoin") {
-        showPayment("bitcoin");
-    }
-});
-
-/**
  *  Form validation functions
- */
-
-/**
+ * 
+ * 
  *  Input Regex Test Function
  * @param regex = regular expression to be checked
  * @param inputValue = the value from the input to be compared to regex
@@ -498,6 +407,96 @@ form.addEventListener("submit", (e) => {
     }
     if (!paymentValidator()) {
         e.preventDefault();
+    }
+});
+
+/**
+ *  Event Listeners for hiding/showing inputs in the form
+ *  Meant to create conditional interactivity in the form
+ */
+
+/**
+ * Event Listener for activities checkboxs
+ * When a checkbox for an activity is check the other activities at that date
+ * and time are disabled and the descritiption text is given a line-through it.
+ * the
+ * @constructor
+ * @param {html node} totalElement - The html element that shows the total price.
+ */
+checkboxFieldset.addEventListener("change", (e) => {
+    const clicked = e.target;
+    const clickedType = clicked.getAttribute("data-day-and-time");
+    let i = 0;
+    checkboxes.forEach(function (checkbox) {
+        let checkboxType = checkbox.getAttribute("data-day-and-time");
+        if (checkboxType === clickedType && clicked !== checkbox) {
+            if (clicked.checked) {
+                checkbox.disabled = true;
+                labels[i].style.color = "grey";
+            } else {
+                checkbox.disabled = false;
+                labels[i].style.color = "inherit";
+            }
+        }
+        i++;
+    });
+    totalCost = calculateTotal(checkboxes);
+    updateTotalElement();
+});
+
+/**
+ *  Event Listener on the Design theme dropdown list
+ *  @param {node list} target - the element that triggered the event.
+ *  if the clicked design is 'js puns' then  run showThemeColors for puns theme
+ *  else showThemeColors for the love theme.
+ */
+themeList.addEventListener("change", (event) => {
+    const target = event.target;
+    if (target.value === "js puns") {
+        hideAllColorOptions(colorOptions);
+        showThemeColors(colorOptions, "puns");
+        showElement(colorDiv);
+    } else if (target.value === "heart js") {
+        hideAllColorOptions(colorOptions);
+        showThemeColors(colorOptions, "love");
+        showElement(colorDiv);
+    } else {
+        hideAllColorOptions(colorOptions);
+        hideElement(colorDiv);
+    }
+});
+
+/**
+ *  Event Listener on the Job Title dropdown list
+ *  IF the option selected in the dropdown list is other
+ *  then toggle the other job title input box to visible
+ *  else hide the job title input box.
+ * @constructor {node list} input - the input to be toggled on or off
+ */
+jobTitleList.addEventListener("change", (event) => {
+    const target = event.target;
+    if (target.value === "other") {
+        showElement(otherTitleInput);
+    } else {
+        hideElement(otherTitleInput);
+    }
+});
+
+/**
+ *  Event Listener on the payment dropdown list
+ *  @param {node list} target - the element that triggered the event.
+ *  if the clicked design is 'js puns' then  run showThemeColors for puns theme
+ *  else showThemeColors for the love theme.
+ */
+selectPaymentList.addEventListener("change", (event) => {
+    const target = event.target;
+    console.log(target.value);
+    if (target.value === "credit card") {
+        showPayment("creditcard");
+    } else if (target.value === "paypal") {
+        showPayment("paypal");
+    } else if (target.value === "bitcoin") {
+        showPayment("bitcoin");
     }
 });
 
