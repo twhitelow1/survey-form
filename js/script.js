@@ -293,10 +293,15 @@ const emailValidator = () => {
  */
 
 const cardInfoValidator = () => {
-    cardNumberValidator();
-    zipValidator();
-    cvvValidator();
-    return true;
+    if (selectPaymentList.value === 'credit card' || selectPaymentList.value === 'select method') {
+        cardNumberValidator();
+        zipValidator();
+        cvvValidator();
+        return true;
+    } else {
+        return false;
+    }
+
 };
 
 /**

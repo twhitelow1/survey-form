@@ -18,11 +18,16 @@ body {
 	font: 1em/1.5;
 	color: rgb(0, 32, 1, 90%);
 	background: #ddffeb;
-	background-image: url(img/conferencebg.jpg);
+	background-image: linear-gradient(to bottom, rgba(6, 48, 1, 0.83), rgba(6, 50, 1, 0.8)),
+		url(../img/conferencebg.jpg);
+	background-position: center;
+	background-repeat: none;
+	background-size: cover;
 }
 
 header {
 	text-align: center;
+	color: white;
 }
 
 h1 {
