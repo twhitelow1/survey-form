@@ -271,9 +271,11 @@ const emailValidator = () => {
     const periodIndex = emailValue.lastIndexOf(".");
     if (symbolIndex > 1 && periodIndex > symbolIndex + 1) {
         emailInput.style.borderColor = "initial";
+        emailError.innerHTML = "";
         return true;
     } else {
         emailInput.style.borderColor = "red";
+        emailError.innerHTML = "Please provide a valid email address format - name@email.com";
         return false;
     }
 };
@@ -367,7 +369,7 @@ const nameValidator = () => {
     if (inputRegexTest(regex, nameInput.value, nameInput)) {
         nameError.innerHTML = "";
     } else {
-        nameError.innerHTML = "Please enter a name. Letters A-Z only.";
+        nameError.innerHTML = "Please enter a name. Must be 2-30 alphabet characters long.";
     }
 };
 /**
