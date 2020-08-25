@@ -115,7 +115,7 @@ const calculateTotal = (checkboxes) => {
 
 const hideAllColorOptions = (optionsList) => {
     for (i = 0; i < optionsList.length; i++) {
-        optionsList[i].style.display = "none";
+        hideElement(optionsList[i]);
     }
 };
 
@@ -134,22 +134,11 @@ const showThemeColors = (optionsList, theme) => {
     for (i = 0; i < optionsList.length; i++) {
         currentOption = colorOptions[i];
         if (currentOption.classList.value === theme) {
-            currentOption.style.display = "block";
+            showElement(currentOption);
         }
     }
 };
 
-/**
- * Toggle the otherTitle textbox visibility on and off
- * @constructor {node list} input - the input to be toggled on or off
- */
-const toggleOtherTitleInput = (input) => {
-    if (input.style.display === "none") {
-        input.style.display = "block";
-    } else {
-        input.style.display = "none";
-    }
-};
 
 // Set the element's display to block so it is visible.
 const showElement = (element) => {
@@ -168,9 +157,9 @@ const hideElement = (element) => {
  */
 
 const hidePayments = () => {
-    creditCardDiv.style.display = "none";
-    paypalDiv.style.display = "none";
-    bitcoinDiv.style.display = "none";
+    hideElement(creditCardDiv);
+    hideElement(paypalDiv);
+    hideElement(bitcoinDiv);
     return true;
 };
 
@@ -514,6 +503,7 @@ form.addEventListener("submit", (e) => {
 
 /**
  * Use JS to create error msg labels
+ * Reference to constructor for createErrorLabel(parentElement, referenceNode, errorMsg, elementId, className)
  */
 const ccError = createErrorLabel(creditCard, cardCol, "", "cc-error", "error");
 const nameError = createErrorLabel(
@@ -546,4 +536,5 @@ hideAllColorOptions(colorOptions); // Hide all the color options until a theme i
 hideElement(themeOptions[0]); // Hide 'Select Theme' in the design theme select list.
 hideElement(colorDiv); // hide the color list drop down box until a theme is selected
 hideElement(otherTitleInput); // hide otherTitleInput
-showPayment(); // hide the payment since no payment selection was passed into function
+hidePayments(); // Hide all the payment option sections until one other than credit card is selected
+showPayment('creditcard'); // by default show the credit card input section
