@@ -37,9 +37,29 @@ const zipCol = document.querySelector("#zip-col");
 const cardCol = document.querySelector("#card-col");
 const cvvCol = document.querySelector("#cvv-col");
 const basicInfoFieldset = document.querySelector(".basic-info");
-
 // Start the total cost at zero and use this to add the total cost of activities
 let totalCost = 0;
+
+/**
+ *  Utility Functions
+ */
+
+// Set the element's display to block so it is visible.
+const showElement = (element) => {
+    element.style.display = "block";
+};
+// Hide the html element that is passes into the function 
+const hideElement = (element) => {
+    element.style.display = "none";
+};
+// Change the font color of an HTML element
+const changeFontColor = (element, color) => {
+    element.style.color = color;
+}
+
+/**
+ * Begin Element Creation Functions
+ */
 
 /**
  * Creates the total price label.
@@ -78,6 +98,38 @@ const createErrorLabel = (parentElement, referenceNode, msg, id, className) => {
     parentElement.insertBefore(label, referenceNode);
     return label;
 };
+/**
+ * Use JS to create error msg labels
+ * Reference to constructor for createErrorLabel(parentElement, referenceNode, errorMsg, elementId, className)
+ */
+const ccError = createErrorLabel(creditCard, cardCol, "", "cc-error", "error");
+const nameError = createErrorLabel(
+    basicInfoFieldset,
+    nameInput,
+    "",
+    "name-error",
+    "error"
+);
+
+const emailError = createErrorLabel(
+    basicInfoFieldset,
+    emailInput,
+    "",
+    "email-error",
+    "error"
+);
+
+const paymentError = createErrorLabel(
+    paymentFieldset,
+    selectPaymentList,
+    "",
+    "pay-error",
+    "error"
+);
+
+/**
+ * Begin Total Price Functions
+ */
 
 /**
  * Updates the total price label.
@@ -108,9 +160,12 @@ const calculateTotal = (checkboxes) => {
 };
 
 /**
+ * Begin Theme and Tshirt Selection Functions
+ */
+
+/**
  * Hide all the color options. Usually caled upon right before making the colors for selected theme visible in dropdown box
  * @constructor {node list} optionsList - node list of options that are set to hidden.
- *
  */
 
 const hideAllColorOptions = (optionsList) => {
@@ -125,31 +180,20 @@ const hideAllColorOptions = (optionsList) => {
  *  if it is then set the display to block so it will appear in the dropdown box
  * @constructor {node list} optionsList - node list of options that are set to hidden.
  * @constructor {string} theme - class that represents what theme the color matches. "puns" or "love"
- * @param {node} currentOption - the current colorOptions[i] in the iteration
  */
 
 const showThemeColors = (optionsList, theme) => {
     hideAllColorOptions(optionsList);
-
     for (i = 0; i < optionsList.length; i++) {
-        currentOption = colorOptions[i];
-        if (currentOption.classList.value === theme) {
+        if (colorOptions[i].classList.value === theme) {
             showElement(currentOption);
         }
     }
 };
 
-
-// Set the element's display to block so it is visible.
-const showElement = (element) => {
-    element.style.display = "block";
-};
-
-/** Hide the html element that is passes into the function */
-
-const hideElement = (element) => {
-    element.style.display = "none";
-};
+/**
+ * Begin Functions to hide and show payment options based on payment selection
+ */
 
 /**
  *  Hide all the payment options divs
@@ -190,8 +234,7 @@ const showPayment = (payment) => {
 };
 
 /**
- *  Form validation functions
- * 
+ *  Begin Form validation functions
  * 
  *  Input Regex Test Function
  * @param regex = regular expression to be checked
@@ -332,16 +375,18 @@ const nameValidator = () => {
  * loop through the checkboxes and if a checkbox is checked the return true
  * if  a checkbox was not found to be checked in loop then no activities were picked so change 
  * the legend font color to red and return false
+ *  
  */
 
 const activityValidator = () => {
     for (let i = 0; i < checkboxes.length; i++) {
         if (checkboxes[i].checked) {
-            checkboxLegend.style.color = "inherit";
+            changeFontColor(checkboxLegend, "inherit");
+            // checkboxLegend.style.color = "inherit";
             return true;
         }
     }
-    checkboxLegend.style.color = "red";
+    changeFontColor(checkboxLegend, "red");
     return false;
 };
 
@@ -411,17 +456,18 @@ form.addEventListener("submit", (e) => {
 });
 
 /**
+ *  Begin Form Functionality Listeners
  *  Event Listeners for hiding/showing inputs in the form
- *  Meant to create conditional interactivity in the form
  */
 
 /**
  * Event Listener for activities checkboxs
- * When a checkbox for an activity is check the other activities at that date
+ * When a checkbox for an activity is checked the other activities at that date
  * and time are disabled and the descritiption text is given a line-through it.
  * the
- * @constructor
- * @param {html node} totalElement - The html element that shows the total price.
+ * @var {html node} clicked - event target which should be checkbox
+ * @var {string} clickedType - the data attribute that stores day and time of activity
+ * @var {int} i - iterator for the labels that need to be selected and changed to grey when not available
  */
 checkboxFieldset.addEventListener("change", (e) => {
     const clicked = e.target;
@@ -432,10 +478,10 @@ checkboxFieldset.addEventListener("change", (e) => {
         if (checkboxType === clickedType && clicked !== checkbox) {
             if (clicked.checked) {
                 checkbox.disabled = true;
-                labels[i].style.color = "grey";
+                changeFontColor(labels[i], "grey");
             } else {
                 checkbox.disabled = false;
-                labels[i].style.color = "inherit";
+                changeFontColor(labels[i], "initial");
             }
         }
         i++;
@@ -499,35 +545,6 @@ selectPaymentList.addEventListener("change", (event) => {
         showPayment("bitcoin");
     }
 });
-
-/**
- * Use JS to create error msg labels
- * Reference to constructor for createErrorLabel(parentElement, referenceNode, errorMsg, elementId, className)
- */
-const ccError = createErrorLabel(creditCard, cardCol, "", "cc-error", "error");
-const nameError = createErrorLabel(
-    basicInfoFieldset,
-    nameInput,
-    "",
-    "name-error",
-    "error"
-);
-
-const emailError = createErrorLabel(
-    basicInfoFieldset,
-    emailInput,
-    "",
-    "email-error",
-    "error"
-);
-
-const paymentError = createErrorLabel(
-    paymentFieldset,
-    selectPaymentList,
-    "",
-    "pay-error",
-    "error"
-);
 
 createTotalElement(); // Create the total element when javascript is on so it can display total price after activities are checked
 paymentOptions[0].style.display = "none"; // Hide the 'Select Payment Method' Option from being able to be selected
