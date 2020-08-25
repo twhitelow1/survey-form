@@ -49,14 +49,14 @@ let totalCost = 0;
  */
 
 const createTotalElement = () => {
-  const label = document.createElement("label");
-  const att = document.createAttribute("id");
-  att.value = "total";
-  label.setAttributeNode(att);
-  const node = document.createTextNode(`Total: $${totalCost}`);
-  label.appendChild(node);
-  checkboxFieldset.appendChild(label);
-  return label;
+    const label = document.createElement("label");
+    const att = document.createAttribute("id");
+    att.value = "total";
+    label.setAttributeNode(att);
+    const node = document.createTextNode(`Total: $${totalCost}`);
+    label.appendChild(node);
+    checkboxFieldset.appendChild(label);
+    return label;
 };
 
 /**  Creates an error msg label html node.
@@ -65,17 +65,17 @@ const createTotalElement = () => {
  * @param {string} msg - error message that will be display, can be left blank
  */
 const createErrorLabel = (parentElement, referenceNode, msg, id, className) => {
-  const label = document.createElement("label");
-  const att = document.createAttribute("class");
-  const idAtt = document.createAttribute("id");
-  idAtt.value = id;
-  att.value = className;
-  label.setAttributeNode(idAtt);
-  label.setAttributeNode(att);
-  const node = document.createTextNode(msg);
-  label.appendChild(node);
-  parentElement.insertBefore(label, referenceNode);
-  return label;
+    const label = document.createElement("label");
+    const att = document.createAttribute("class");
+    const idAtt = document.createAttribute("id");
+    idAtt.value = id;
+    att.value = className;
+    label.setAttributeNode(idAtt);
+    label.setAttributeNode(att);
+    const node = document.createTextNode(msg);
+    label.appendChild(node);
+    parentElement.insertBefore(label, referenceNode);
+    return label;
 };
 
 /**
@@ -85,9 +85,9 @@ const createErrorLabel = (parentElement, referenceNode, msg, id, className) => {
  */
 
 const updateTotalElement = () => {
-  const totalElement = document.querySelector("#total");
-  totalElement.innerHTML = `Total: $${totalCost}`;
-  return totalElement;
+    const totalElement = document.querySelector("#total");
+    totalElement.innerHTML = `Total: $${totalCost}`;
+    return totalElement;
 };
 
 /**
@@ -97,13 +97,13 @@ const updateTotalElement = () => {
  */
 
 const calculateTotal = (checkboxes) => {
-  let total = 0;
-  checkboxes.forEach(function (checkbox) {
-    if (checkbox.checked) {
-      total += parseInt(checkbox.getAttribute("data-cost"));
-    }
-  });
-  return total;
+    let total = 0;
+    checkboxes.forEach(function (checkbox) {
+        if (checkbox.checked) {
+            total += parseInt(checkbox.getAttribute("data-cost"));
+        }
+    });
+    return total;
 };
 
 /**
@@ -113,9 +113,9 @@ const calculateTotal = (checkboxes) => {
  */
 
 const hideAllColorOptions = (optionsList) => {
-  for (i = 0; i < optionsList.length; i++) {
-    optionsList[i].style.display = "none";
-  }
+    for (i = 0; i < optionsList.length; i++) {
+        optionsList[i].style.display = "none";
+    }
 };
 
 /**
@@ -128,14 +128,14 @@ const hideAllColorOptions = (optionsList) => {
  */
 
 const showThemeColors = (optionsList, theme) => {
-  hideAllColorOptions(optionsList);
+    hideAllColorOptions(optionsList);
 
-  for (i = 0; i < optionsList.length; i++) {
-    currentOption = colorOptions[i];
-    if (currentOption.classList.value === theme) {
-      currentOption.style.display = "block";
+    for (i = 0; i < optionsList.length; i++) {
+        currentOption = colorOptions[i];
+        if (currentOption.classList.value === theme) {
+            currentOption.style.display = "block";
+        }
     }
-  }
 };
 
 /**
@@ -143,22 +143,22 @@ const showThemeColors = (optionsList, theme) => {
  * @constructor {node list} input - the input to be toggled on or off
  */
 const toggleOtherTitleInput = (input) => {
-  if (input.style.display === "none") {
-    input.style.display = "block";
-  } else {
-    input.style.display = "none";
-  }
+    if (input.style.display === "none") {
+        input.style.display = "block";
+    } else {
+        input.style.display = "none";
+    }
 };
 
 // Set the element's display to block so it is visible.
 const showElement = (element) => {
-  element.style.display = "block";
+    element.style.display = "block";
 };
 
 /** Hide the html element that is passes into the function */
 
 const hideElement = (element) => {
-  element.style.display = "none";
+    element.style.display = "none";
 };
 
 /**
@@ -167,10 +167,10 @@ const hideElement = (element) => {
  */
 
 const hidePayments = () => {
-  creditCardDiv.style.display = "none";
-  paypalDiv.style.display = "none";
-  bitcoinDiv.style.display = "none";
-  return true;
+    creditCardDiv.style.display = "none";
+    paypalDiv.style.display = "none";
+    bitcoinDiv.style.display = "none";
+    return true;
 };
 
 /**
@@ -181,23 +181,28 @@ const hidePayments = () => {
  */
 
 const showPayment = (payment) => {
-  switch (payment) {
-    case "creditcard":
-      hidePayments();
-      showElement(creditCardDiv);
-      break;
-    case "paypal":
-      hidePayments();
-      showElement(paypalDiv);
-      break;
-    case "bitcoin":
-      hidePayments();
-      showElement(bitcoinDiv);
-      break;
-    default:
-      hidePayments();
-  }
+    switch (payment) {
+        case "creditcard":
+            hidePayments();
+            showElement(creditCardDiv);
+            break;
+        case "paypal":
+            hidePayments();
+            showElement(paypalDiv);
+            break;
+        case "bitcoin":
+            hidePayments();
+            showElement(bitcoinDiv);
+            break;
+        default:
+            hidePayments();
+    }
 };
+
+/**
+ *  Event Listeners for hiding/showing inputs in the form
+ *  Meant to create conditional interactivity in the form
+ */
 
 /**
  * Event Listener for activities checkboxs
@@ -208,24 +213,24 @@ const showPayment = (payment) => {
  * @param {html node} totalElement - The html element that shows the total price.
  */
 checkboxFieldset.addEventListener("change", (e) => {
-  const clicked = e.target;
-  const clickedType = clicked.getAttribute("data-day-and-time");
-  let i = 0;
-  checkboxes.forEach(function (checkbox) {
-    let checkboxType = checkbox.getAttribute("data-day-and-time");
-    if (checkboxType === clickedType && clicked !== checkbox) {
-      if (clicked.checked) {
-        checkbox.disabled = true;
-        labels[i].style.color = "grey";
-      } else {
-        checkbox.disabled = false;
-        labels[i].style.color = "inherit";
-      }
-    }
-    i++;
-  });
-  totalCost = calculateTotal(checkboxes);
-  updateTotalElement();
+    const clicked = e.target;
+    const clickedType = clicked.getAttribute("data-day-and-time");
+    let i = 0;
+    checkboxes.forEach(function (checkbox) {
+        let checkboxType = checkbox.getAttribute("data-day-and-time");
+        if (checkboxType === clickedType && clicked !== checkbox) {
+            if (clicked.checked) {
+                checkbox.disabled = true;
+                labels[i].style.color = "grey";
+            } else {
+                checkbox.disabled = false;
+                labels[i].style.color = "inherit";
+            }
+        }
+        i++;
+    });
+    totalCost = calculateTotal(checkboxes);
+    updateTotalElement();
 });
 
 /**
@@ -235,19 +240,19 @@ checkboxFieldset.addEventListener("change", (e) => {
  *  else showThemeColors for the love theme.
  */
 themeList.addEventListener("change", (event) => {
-  const target = event.target;
-  if (target.value === "js puns") {
-    hideAllColorOptions(colorOptions);
-    showThemeColors(colorOptions, "puns");
-    showElement(colorDiv);
-  } else if (target.value === "heart js") {
-    hideAllColorOptions(colorOptions);
-    showThemeColors(colorOptions, "love");
-    showElement(colorDiv);
-  } else {
-    hideAllColorOptions(colorOptions);
-    hideElement(colorDiv);
-  }
+    const target = event.target;
+    if (target.value === "js puns") {
+        hideAllColorOptions(colorOptions);
+        showThemeColors(colorOptions, "puns");
+        showElement(colorDiv);
+    } else if (target.value === "heart js") {
+        hideAllColorOptions(colorOptions);
+        showThemeColors(colorOptions, "love");
+        showElement(colorDiv);
+    } else {
+        hideAllColorOptions(colorOptions);
+        hideElement(colorDiv);
+    }
 });
 
 /**
@@ -258,12 +263,12 @@ themeList.addEventListener("change", (event) => {
  * @constructor {node list} input - the input to be toggled on or off
  */
 jobTitleList.addEventListener("change", (event) => {
-  const target = event.target;
-  if (target.value === "other") {
-    toggleOtherTitleInput(otherTitleInput);
-  } else {
-    otherTitleInput.style.display = "none";
-  }
+    const target = event.target;
+    if (target.value === "other") {
+        toggleOtherTitleInput(otherTitleInput);
+    } else {
+        otherTitleInput.style.display = "none";
+    }
 });
 
 /**
@@ -273,140 +278,190 @@ jobTitleList.addEventListener("change", (event) => {
  *  else showThemeColors for the love theme.
  */
 selectPaymentList.addEventListener("change", (event) => {
-  const target = event.target;
-  console.log(target.value);
-  if (target.value === "credit card") {
-    showPayment("creditcard");
-  } else if (target.value === "paypal") {
-    showPayment("paypal");
-  } else if (target.value === "bitcoin") {
-    showPayment("bitcoin");
-  }
+    const target = event.target;
+    console.log(target.value);
+    if (target.value === "credit card") {
+        showPayment("creditcard");
+    } else if (target.value === "paypal") {
+        showPayment("paypal");
+    } else if (target.value === "bitcoin") {
+        showPayment("bitcoin");
+    }
 });
 
+/**
+ *  Form validator functions
+ */
+
+/**
+ * Email Validator
+ * @var {string} emailValue = email input value
+ * @var {string} symbolIndex = store result of indexOf() on emailValue string to locate the index of @ symbol
+ * @var {string} periodIndex = store result of lastIndexOf() on emailValue string to locate the index of .
+ * If @ symbol is at least the second character and the . index is greater than the @ symbol index plus 1. 
+ * This basically means the format must be at least like this a@b.c
+ * when true change textbox border to initial color and return true
+ * else turn the textbox border to red and return false
+ */
+
 const emailValidator = () => {
-  const emailValue = emailInput.value;
-  const symbolIndex = emailValue.indexOf("@");
-  const periodIndex = emailValue.lastIndexOf(".");
-  if (symbolIndex > 1 && periodIndex > symbolIndex + 1) {
-    emailInput.style.borderColor = "initial";
-    return true;
-  } else {
-    emailInput.style.borderColor = "red";
-    return false;
-  }
+    const emailValue = emailInput.value;
+    const symbolIndex = emailValue.indexOf("@");
+    const periodIndex = emailValue.lastIndexOf(".");
+    if (symbolIndex > 1 && periodIndex > symbolIndex + 1) {
+        emailInput.style.borderColor = "initial";
+        return true;
+    } else {
+        emailInput.style.borderColor = "red";
+        return false;
+    }
 };
+
+/**
+ * Card Info Validator
+ * @function cardNumberValidator = check cardNumber input and return true if valid and false if not
+ * @function zipValidator = check zip code input and return true if valid and false if not
+ * @function cvvValidator = check cvv # input and return true if valid and false if not
+ * @return true when done
+ */
 
 const cardInfoValidator = () => {
-  cardNumberValidator();
-  zipValidator();
-  cvvValidator();
-  return true;
+    cardNumberValidator();
+    zipValidator();
+    cvvValidator();
+    return true;
 };
 
+/**
+ * Card Number Validator
+ * @var regex = regular expression only accepting 13-16 digit numbers
+ * if regex is true then set label color and input border to initial colors, and clear error msg. return true
+ * else change input border to red, and if input was empty ask for a number, else ask for a 13-16 digit number and return false
+ */
 const cardNumberValidator = () => {
-  const ccNumValue = ccNum.value;
-  let regex = /^[1-9][0-9]{12,15}$/;
-  if (regex.test(ccNumValue)) {
-    ccLabel.style.color = "initial";
-    ccNum.style.borderColor = "initial";
-    ccError.innerHTML = "";
-    return true;
-  } else {
-    ccNum.style.borderColor = "red";
-    if (ccNumValue.length <= 0) {
-      ccError.innerHTML = "Please enter a credit card number.";
+    let regex = /^[1-9][0-9]{12,15}$/;
+    if (regex.test(ccNum.value)) {
+        ccLabel.style.color = "initial";
+        ccNum.style.borderColor = "initial";
+        ccError.innerHTML = "";
+        return true;
     } else {
-      ccError.innerHTML = "Please enter 13-16 digit card number.";
+        ccNum.style.borderColor = "red";
+        if (ccNum.value.length <= 0) {
+            ccError.innerHTML = "Please enter a credit card number.";
+        } else {
+            ccError.innerHTML = "Please enter 13-16 digit card number.";
+        }
+        return false;
     }
-    return false;
-  }
 };
+
+
+/**
+ * CVV Validator
+ * @var regex = regular expression only accepting 3 digits
+ * if regex is true then set input border to initial color, and clear error msg. return true
+ * else change input border to red
+ *      if the error msg doesn't already have a msg then display the cvv error msg
+ *      do this so the error msgs follow the flow of the form
+ */
 
 const cvvValidator = () => {
-  const cvvValue = cvv.value;
-  let regex = /^\d{3}$/;
-  if (regex.test(cvvValue)) {
-    cvv.style.borderColor = "initial";
-    ccError.innerHTML = "";
-    return true;
-  } else {
-    cvv.style.borderColor = "red";
-    if (ccError.innerHTML === "") {
-      ccError.innerHTML = "Please enter a 3 digit cvv number";
+    let regex = /^\d{3}$/;
+    if (regex.test(cvv.value)) {
+        cvv.style.borderColor = "initial";
+        ccError.innerHTML = "";
+        return true;
+    } else {
+        cvv.style.borderColor = "red";
+        if (ccError.innerHTML === "") {
+            ccError.innerHTML = "Please enter a 3 digit cvv number";
+        }
+        return false;
     }
-    return false;
-  }
 };
 
 const zipValidator = () => {
-  const zipValue = zip.value;
-  let regex = /^\d{5}$/;
-  if (regex.test(zipValue)) {
-    zip.style.borderColor = "initial";
-    return true;
-  } else {
-    zip.style.borderColor = "red";
-    if (ccError.innerHTML === "") {
-      ccError.innerHTML = "Please enter a 5 digit zip code";
+    const zipValue = zip.value;
+    let regex = /^\d{5}$/;
+    if (inputRegexTest(regex, zipValue, zip)) {
+        return true
+    } else {
+        if (ccError.innerHTML === "") {
+            ccError.innerHTML = "Please enter a 5 digit zip code";
+        }
+        return false;
     }
-    return false;
-  }
 };
 
+/**
+ * CVV Validator
+ * @var regex = regular expression only accepting 3 digits
+ * if regex is true then set input border to initial color, and clear error msg. return true
+ * else change input border to red
+ *      if the error msg doesn't already have a msg then display the cvv error msg
+ *      do this so the error msgs follow the flow of the form
+ */
+
 const inputRegexTest = (regex, inputValue, input) => {
-  if (regex.test(inputValue)) {
-    input.style.borderColor = "initial";
-    return true;
-  } else {
-    input.style.borderColor = "red";
-    return false;
-  }
+    if (regex.test(inputValue)) {
+        input.style.borderColor = "initial";
+        return true;
+    } else {
+        input.style.borderColor = "red";
+        return false;
+    }
 };
 
 const nameValidator = () => {
-  const name = nameInput.value;
-  var regex = /^[a-zA-Z ]{2,30}$/;
-  if (inputRegexTest(regex, name, nameInput)) {
-    nameError.innerHTML = "";
-  } else {
-    nameError.innerHTML = "Please enter a name. Letters A-Z only.";
-  }
+    const name = nameInput.value;
+    var regex = /^[a-zA-Z ]{2,30}$/;
+    if (inputRegexTest(regex, name, nameInput)) {
+        nameError.innerHTML = "";
+    } else {
+        nameError.innerHTML = "Please enter a name. Letters A-Z only.";
+    }
 };
 
 const activityValidator = () => {
-  for (let i = 0; i < checkboxes.length; i++) {
-    if (checkboxes[i].checked) {
-      console.log("A box is checked");
-      checkboxLegend.style.color = "inherit";
-      return true;
+    for (let i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            console.log("A box is checked");
+            checkboxLegend.style.color = "inherit";
+            return true;
+        }
     }
-  }
-  console.log("No box checked");
-  checkboxLegend.style.color = "red";
-  return false;
+    console.log("No box checked");
+    checkboxLegend.style.color = "red";
+    return false;
 };
 
 const paymentValidator = () => {
-  if (selectPaymentList.value === "select method") {
-    paymentError.innerHTML = "You must select a payment";
-  }
+    if (selectPaymentList.value === "select method") {
+        paymentError.innerHTML = "You must select a payment";
+    } else {
+        paymentError.innerHTML = "";
+    }
 };
 
+selectPaymentList.addEventListener("change", (e) => {
+    paymentValidator();
+})
 checkboxFieldset.addEventListener("change", (e) => {
-  activityValidator();
+    activityValidator();
 });
 
 emailInput.addEventListener("keyup", (e) => {
-  emailValidator();
+    emailValidator();
 });
 
 nameInput.addEventListener("keyup", (e) => {
-  nameValidator();
+    nameValidator();
 });
 
 paymentFieldset.addEventListener("keyup", (e) => {
-  cardInfoValidator();
+    paymentValidator()
+    cardInfoValidator();
 });
 
 /**
@@ -417,21 +472,21 @@ paymentFieldset.addEventListener("keyup", (e) => {
  */
 
 form.addEventListener("submit", (e) => {
-  if (!emailValidator()) {
-    e.preventDefault();
-  }
-  if (!nameValidator()) {
-    e.preventDefault();
-  }
-  if (!activityValidator()) {
-    e.preventDefault();
-  }
-  if (!cardInfoValidator()) {
-    e.preventDefault();
-  }
-  if (!paymentValidator()) {
-    e.preventDefault();
-  }
+    if (!emailValidator()) {
+        e.preventDefault();
+    }
+    if (!nameValidator()) {
+        e.preventDefault();
+    }
+    if (!activityValidator()) {
+        e.preventDefault();
+    }
+    if (!cardInfoValidator()) {
+        e.preventDefault();
+    }
+    if (!paymentValidator()) {
+        e.preventDefault();
+    }
 });
 
 /**
@@ -441,27 +496,27 @@ form.addEventListener("submit", (e) => {
  */
 const ccError = createErrorLabel(creditCard, cardCol, "", "cc-error", "error");
 const nameError = createErrorLabel(
-  basicInfoFieldset,
-  nameInput,
-  "",
-  "name-error",
-  "error"
+    basicInfoFieldset,
+    nameInput,
+    "",
+    "name-error",
+    "error"
 );
 
 const emailError = createErrorLabel(
-  basicInfoFieldset,
-  emailInput,
-  "",
-  "email-error",
-  "error"
+    basicInfoFieldset,
+    emailInput,
+    "",
+    "email-error",
+    "error"
 );
 
 const paymentError = createErrorLabel(
-  paymentFieldset,
-  selectPaymentList,
-  "",
-  "pay-error",
-  "error"
+    paymentFieldset,
+    selectPaymentList,
+    "",
+    "pay-error",
+    "error"
 );
 
 createTotalElement(); // Create the total element when javascript is on so it can display total price after activities are checked
