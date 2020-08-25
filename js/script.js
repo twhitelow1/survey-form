@@ -549,6 +549,7 @@ selectPaymentList.addEventListener("change", (event) => {
 createTotalElement(); // Create the total element when javascript is on so it can display total price after activities are checked
 paymentOptions[0].style.display = "none"; // Hide the 'Select Payment Method' Option from being able to be selected
 hideAllColorOptions(colorOptions); // Hide all the color options until a theme is selected
+colorOptions[0].index = 2;
 hideElement(themeOptions[0]); // Hide 'Select Theme' in the design theme select list.
 hideElement(colorDiv); // hide the color list drop down box until a theme is selected
 hideElement(otherTitleInput); // hide otherTitleInput

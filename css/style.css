@@ -16,8 +16,9 @@ button {
 
 body {
 	font: 1em/1.5;
-	color: rgba(6, 49, 68, 0.9);
-	background: #CDE0FB;
+	color: rgb(0, 32, 1, 90%);
+	background: #ddffeb;
+	background-image: url(img/conferencebg.jpg);
 }
 
 header {
@@ -40,8 +41,8 @@ a {
 
 form {
 	padding: .875em 1.875em 1.875em;
-	background: #9BBEEF;
-	border: 2px solid rgba(8, 63, 87, 0.6);
+	background: rgb(111 220 156);
+	border: 2px solid rgb(3, 147, 27, 0.6);
 	border-radius: 3px;
 }
 
@@ -90,7 +91,7 @@ input {
 	font-weight: 500;
 	padding: .8em;
 	background: #e9f6fb;
-	border: 2px solid rgb(111, 157, 220);
+	border: 2px solid rgb(24, 163, 22);
 	border-radius: 3px;
 	outline: none;
 }
@@ -109,7 +110,7 @@ input[type="radio"] {
 button {
 	color: #fff;
 	padding: .55em 1.25em;
-	background: #083f57;
+	background: rgb(24, 163, 22);
 	margin: 1.25em 0 .5em;
 	cursor: pointer;
 	border: 2px solid black;
@@ -118,7 +119,7 @@ button {
 }
 
 button:hover {
-	background: #6F9DDC;
+	background: rgb(24, 163, 22);
 }
 
 input,
