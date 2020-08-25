@@ -185,8 +185,8 @@ const hideAllColorOptions = (optionsList) => {
 const showThemeColors = (optionsList, theme) => {
     hideAllColorOptions(optionsList);
     for (i = 0; i < optionsList.length; i++) {
-        if (colorOptions[i].classList.value === theme) {
-            showElement(currentOption);
+        if (optionsList[i].classList.value === theme) {
+            showElement(optionsList[i]);
         }
     }
 };
