@@ -294,15 +294,26 @@ const emailValidator = () => {
 
 const cardInfoValidator = () => {
     if (selectPaymentList.value === 'credit card' || selectPaymentList.value === 'select method') {
-        cardNumberValidator();
-        zipValidator();
-        cvvValidator();
-        return true;
-    } else {
-        return false;
-    }
+        numTest = cardNumberValidator();
+        zipTest = zipValidator();
+        cvvTest = cvvValidator();
+        console.log(numTest);
 
-};
+        if (!numTest) {
+            return false
+        } else if (!zipTest) {
+            return false
+        } else if (!cvvTest) {
+            return false
+        } else {
+            return true
+        }
+    } else if (selectPaymentList.value === 'paypal' || selectPaymentList.value === 'bitcoin') {
+        return true
+    } else {
+        return false
+    }
+}
 
 /**
  * Card Number Validator
@@ -377,8 +388,10 @@ const nameValidator = () => {
     var regex = /^[a-zA-Z ]{2,30}$/;
     if (inputRegexTest(regex, nameInput.value, nameInput)) {
         nameError.innerHTML = "";
+        return true
     } else {
         nameError.innerHTML = "Please enter a name. Must be 2-30 alphabet characters long.";
+        return false
     }
 };
 /**
