@@ -289,21 +289,18 @@ const emailValidator = () => {
  * @function cardNumberValidator = check cardNumber input and return true if valid and false if not
  * @function zipValidator = check zip code input and return true if valid and false if not
  * @function cvvValidator = check cvv # input and return true if valid and false if not
- * @return true when done  
+ * If the payment options list is on 'credit card' or 'select method' check each cc field and if error exist return false else return true
+ * If paypal or bitcoin selected nothing to check so just return true (means its passes)
+ * Else return false 
  */
 
 const cardInfoValidator = () => {
     if (selectPaymentList.value === 'credit card' || selectPaymentList.value === 'select method') {
-        numTest = cardNumberValidator();
-        zipTest = zipValidator();
-        cvvTest = cvvValidator();
-        console.log(numTest);
-
-        if (!numTest) {
+        if (!cardNumberValidator()) {
             return false
-        } else if (!zipTest) {
+        } else if (!zipValidator()) {
             return false
-        } else if (!cvvTest) {
+        } else if (!cvvValidator()) {
             return false
         } else {
             return true
