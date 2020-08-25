@@ -3,42 +3,42 @@
  *  Most are elements from the form that are selected for DOM manipulation.
  */
 
-const otherTitleInput = document.getElementById('other-title');
-const jobTitleList = document.getElementById('title');
+const otherTitleInput = document.getElementById("other-title");
+const jobTitleList = document.getElementById("title");
 const otherJobTitleSelected = jobTitleList.options[5];
-const jobRoleOptions = document.querySelectorAll('#title option');
+const jobRoleOptions = document.querySelectorAll("#title option");
 const jobTitleOther = jobRoleOptions[5];
-const colorDiv = document.getElementById('colors-js-puns');
-const colorList = document.getElementById('color');
-const colorOptions = document.querySelectorAll('#color option');
-const themeList = document.querySelector('#design');
-const themeOptions = document.querySelectorAll('#design option');
-const checkboxes = document.querySelectorAll('.activities input');
-const checkboxFieldset = document.querySelector('.activities');
-const checkboxLegend = document.querySelector('.activities legend')
-const labels = document.querySelectorAll('.activities label');
-const selectPaymentList = document.getElementById('payment');
-const paymentOptions = document.querySelectorAll('#payment option');
-const creditCardDiv = document.getElementById('credit-card');
-const paypalDiv = document.getElementById('paypal');
-const bitcoinDiv = document.getElementById('bitcoin');
-const nameInput = document.getElementById('name');
-const emailInput = document.getElementById('mail');
+const colorDiv = document.getElementById("colors-js-puns");
+const colorList = document.getElementById("color");
+const colorOptions = document.querySelectorAll("#color option");
+const themeList = document.querySelector("#design");
+const themeOptions = document.querySelectorAll("#design option");
+const checkboxes = document.querySelectorAll(".activities input");
+const checkboxFieldset = document.querySelector(".activities");
+const checkboxLegend = document.querySelector(".activities legend");
+const labels = document.querySelectorAll(".activities label");
+const selectPaymentList = document.getElementById("payment");
+const paymentFieldset = document.querySelector(".payment");
+const paymentOptions = document.querySelectorAll("#payment option");
+const creditCardDiv = document.getElementById("credit-card");
+const paypalDiv = document.getElementById("paypal");
+const bitcoinDiv = document.getElementById("bitcoin");
+const nameInput = document.getElementById("name");
+const emailInput = document.getElementById("mail");
 const form = document.querySelector("form");
-const ccNum = document.querySelector('#cc-num');
-const zip = document.querySelector('#zip');
-const cvv = document.querySelector('#cvv');
+const ccNum = document.querySelector("#cc-num");
+const zip = document.querySelector("#zip");
+const cvv = document.querySelector("#cvv");
 const ccLabel = document.querySelector('label[for="cc-num"]');
 const zipLabel = document.querySelector('label[for="zip"]');
 const cvvLabel = document.querySelector('label[for="cvv"]');
-const creditCard = document.getElementById('credit-card');
-const zipCol = document.querySelector('#zip-col');
-const cardCol = document.querySelector('#card-col');
-const cvvCol = document.querySelector('#cvv-col');
+const creditCard = document.getElementById("credit-card");
+const zipCol = document.querySelector("#zip-col");
+const cardCol = document.querySelector("#card-col");
+const cvvCol = document.querySelector("#cvv-col");
+const basicInfoFieldset = document.querySelector(".basic-info");
 
 let totalCost = 0;
-
-
 
 /**
  * Creates the total price label.
@@ -49,73 +49,74 @@ let totalCost = 0;
  */
 
 const createTotalElement = () => {
-    const label = document.createElement("label");
-    const att = document.createAttribute("id");
-    att.value = "total";
-    label.setAttributeNode(att);
-    const node = document.createTextNode(`Total: $${totalCost}`);
-    label.appendChild(node);
-    checkboxFieldset.appendChild(label);
-    return label
-}
+  const label = document.createElement("label");
+  const att = document.createAttribute("id");
+  att.value = "total";
+  label.setAttributeNode(att);
+  const node = document.createTextNode(`Total: $${totalCost}`);
+  label.appendChild(node);
+  checkboxFieldset.appendChild(label);
+  return label;
+};
 
 /**  Creates an error msg label html node.
  *
  * @param {html node} parentElement - the parent element that the error msg with append to.
- * @param {string} msg - error message that will be display, can be left blank 
+ * @param {string} msg - error message that will be display, can be left blank
  */
-const createErrorLabel = (parentElement, referenceNode, msg) => {
-    const label = document.createElement("label");
-    const att = document.createAttribute("class");
-    const id = document.createAttribute("id");
-    id.value = "cc-error";
-    att.value = "error";
-    label.setAttributeNode(id);
-    label.setAttributeNode(att);
-    const node = document.createTextNode(msg);
-    label.appendChild(node);
-    parentElement.insertBefore(label, referenceNode);
-    return label
-}
+const createErrorLabel = (parentElement, referenceNode, msg, id, className) => {
+  const label = document.createElement("label");
+  const att = document.createAttribute("class");
+  const idAtt = document.createAttribute("id");
+  idAtt.value = id;
+  att.value = className;
+  label.setAttributeNode(idAtt);
+  label.setAttributeNode(att);
+  const node = document.createTextNode(msg);
+  label.appendChild(node);
+  parentElement.insertBefore(label, referenceNode);
+  return label;
+};
 
 /**
  * Updates the total price label.
  * @constructor
  * @param {html node} totalElement - The html element that shows the total price.
  */
+
 const updateTotalElement = () => {
-    const totalElement = document.querySelector('#total')
-    totalElement.innerHTML = `Total: $${totalCost}`;
-    return totalElement
-}
+  const totalElement = document.querySelector("#total");
+  totalElement.innerHTML = `Total: $${totalCost}`;
+  return totalElement;
+};
 
 /**
  * Adds the price of all the selected activities and returns the total
- * @constructor 
+ * @constructor
  * @param {integer} total - total that is added to and returned by function
  */
 
 const calculateTotal = (checkboxes) => {
-    let total = 0;
-    checkboxes.forEach(function (checkbox) {
-        if (checkbox.checked) {
-            total += parseInt(checkbox.getAttribute('data-cost'));
-        }
-    })
-    return total;
-}
+  let total = 0;
+  checkboxes.forEach(function (checkbox) {
+    if (checkbox.checked) {
+      total += parseInt(checkbox.getAttribute("data-cost"));
+    }
+  });
+  return total;
+};
 
 /**
  * Hide all the color options. Usually caled upon right before making the colors for selected theme visible in dropdown box
  * @constructor {node list} optionsList - node list of options that are set to hidden.
- * 
+ *
  */
 
 const hideAllColorOptions = (optionsList) => {
-    for (i = 0; i < optionsList.length; i++) {
-        optionsList[i].style.display = 'none';
-    }
-}
+  for (i = 0; i < optionsList.length; i++) {
+    optionsList[i].style.display = "none";
+  }
+};
 
 /**
  *  Make all the tshirt colors that match the selected theme
@@ -126,50 +127,51 @@ const hideAllColorOptions = (optionsList) => {
  * @param {node} currentOption - the current colorOptions[i] in the iteration
  */
 
-
 const showThemeColors = (optionsList, theme) => {
-    hideAllColorOptions(optionsList);
+  hideAllColorOptions(optionsList);
 
-    for (i = 0; i < optionsList.length; i++) {
-        currentOption = colorOptions[i]
-        if (currentOption.classList.value === theme) {
-            currentOption.style.display = 'block';
-        }
+  for (i = 0; i < optionsList.length; i++) {
+    currentOption = colorOptions[i];
+    if (currentOption.classList.value === theme) {
+      currentOption.style.display = "block";
     }
-}
+  }
+};
 
 /**
  * Toggle the otherTitle textbox visibility on and off
  * @constructor {node list} input - the input to be toggled on or off
  */
 const toggleOtherTitleInput = (input) => {
-    if (input.style.display === "none") {
-        input.style.display = "block";
-    } else {
-        input.style.display = "none";
-    }
-}
+  if (input.style.display === "none") {
+    input.style.display = "block";
+  } else {
+    input.style.display = "none";
+  }
+};
+
 // Set the element's display to block so it is visible.
 const showElement = (element) => {
-    element.style.display = 'block';
-}
+  element.style.display = "block";
+};
+
 /** Hide the html element that is passes into the function */
 
 const hideElement = (element) => {
-    element.style.display = 'none';
-}
+  element.style.display = "none";
+};
 
 /**
- *  Hide all the payment options divs 
+ *  Hide all the payment options divs
  *  Used mostly to clear area before showing the div that is selected.
  */
 
 const hidePayments = () => {
-    creditCardDiv.style.display = 'none';
-    paypalDiv.style.display = 'none';
-    bitcoinDiv.style.display = 'none';
-    return true;
-}
+  creditCardDiv.style.display = "none";
+  paypalDiv.style.display = "none";
+  bitcoinDiv.style.display = "none";
+  return true;
+};
 
 /**
  *  Show the payment option that is selected
@@ -179,55 +181,52 @@ const hidePayments = () => {
  */
 
 const showPayment = (payment) => {
-    switch (payment) {
-        case 'creditcard':
-            hidePayments();
-            showElement(creditCardDiv);
-            break;
-        case 'paypal':
-            hidePayments();
-            showElement(paypalDiv);
-            break;
-        case 'bitcoin':
-            hidePayments();
-            showElement(bitcoinDiv);
-            break;
-        default:
-            hidePayments();
-    }
-}
-
+  switch (payment) {
+    case "creditcard":
+      hidePayments();
+      showElement(creditCardDiv);
+      break;
+    case "paypal":
+      hidePayments();
+      showElement(paypalDiv);
+      break;
+    case "bitcoin":
+      hidePayments();
+      showElement(bitcoinDiv);
+      break;
+    default:
+      hidePayments();
+  }
+};
 
 /**
- * Activities checkbox list Event Listener
+ * Event Listener for activities checkboxs
  * When a checkbox for an activity is check the other activities at that date
  * and time are disabled and the descritiption text is given a line-through it.
- * the 
+ * the
  * @constructor
  * @param {html node} totalElement - The html element that shows the total price.
  */
-document.querySelector('.activities').addEventListener('change', (e) => {
-    const clicked = e.target;
-    const clickedType = clicked.getAttribute('data-day-and-time');
-    let i = 0;
-    checkboxes.forEach(function (checkbox) {
-        let checkboxType = checkbox.getAttribute('data-day-and-time');
-        if (checkboxType === clickedType && clicked !== checkbox) {
-            if (clicked.checked) {
-                checkbox.disabled = true;
-                labels[i].style.color = "grey";
-
-            } else {
-                checkbox.disabled = false;
-                labels[i].style.color = 'inherit';
-            }
-        }
-        i++;
-    })
-    totalCost = calculateTotal(checkboxes);
-    updateTotalElement();
+checkboxFieldset.addEventListener("change", (e) => {
+  const clicked = e.target;
+  const clickedType = clicked.getAttribute("data-day-and-time");
+  let i = 0;
+  checkboxes.forEach(function (checkbox) {
+    let checkboxType = checkbox.getAttribute("data-day-and-time");
+    if (checkboxType === clickedType && clicked !== checkbox) {
+      if (clicked.checked) {
+        checkbox.disabled = true;
+        labels[i].style.color = "grey";
+      } else {
+        checkbox.disabled = false;
+        labels[i].style.color = "inherit";
+      }
+    }
+    i++;
+  });
+  totalCost = calculateTotal(checkboxes);
+  updateTotalElement();
 });
-
 
 /**
  *  Event Listener on the Design theme dropdown list
@@ -235,20 +234,20 @@ document.querySelector('.activities').addEventListener('change', (e) => {
  *  if the clicked design is 'js puns' then  run showThemeColors for puns theme
  *  else showThemeColors for the love theme.
  */
-themeList.addEventListener('change', (event) => {
-    const target = event.target
-    if (target.value === 'js puns') {
-        hideAllColorOptions(colorOptions);
-        showThemeColors(colorOptions, "puns");
-        showElement(colorDiv);
-    } else if (target.value === 'heart js') {
-        hideAllColorOptions(colorOptions);
-        showThemeColors(colorOptions, "love");
-        showElement(colorDiv);
-    } else {
-        hideAllColorOptions(colorOptions);
-        hideElement(colorDiv);
-    }
+themeList.addEventListener("change", (event) => {
+  const target = event.target;
+  if (target.value === "js puns") {
+    hideAllColorOptions(colorOptions);
+    showThemeColors(colorOptions, "puns");
+    showElement(colorDiv);
+  } else if (target.value === "heart js") {
+    hideAllColorOptions(colorOptions);
+    showThemeColors(colorOptions, "love");
+    showElement(colorDiv);
+  } else {
+    hideAllColorOptions(colorOptions);
+    hideElement(colorDiv);
+  }
 });
 
 /**
@@ -258,14 +257,13 @@ themeList.addEventListener('change', (event) => {
  *  else hide the job title input box.
  * @constructor {node list} input - the input to be toggled on or off
  */
-jobTitleList.addEventListener('change', (event) => {
-    const target = event.target
-    if (target.value === 'other') {
-        toggleOtherTitleInput(otherTitleInput)
-
-    } else {
-        otherTitleInput.style.display = "none";
-    }
+jobTitleList.addEventListener("change", (event) => {
+  const target = event.target;
+  if (target.value === "other") {
+    toggleOtherTitleInput(otherTitleInput);
+  } else {
+    otherTitleInput.style.display = "none";
+  }
 });
 
 /**
@@ -274,151 +272,202 @@ jobTitleList.addEventListener('change', (event) => {
  *  if the clicked design is 'js puns' then  run showThemeColors for puns theme
  *  else showThemeColors for the love theme.
  */
-selectPaymentList.addEventListener('change', (event) => {
-    const target = event.target
-    console.log(target.value)
-    if (target.value === 'credit card') {
-        showPayment('creditcard');
-    } else if (target.value === 'paypal') {
-        showPayment('paypal');
-    } else if (target.value === 'bitcoin') {
-        showPayment('bitcoin');
-    }
+selectPaymentList.addEventListener("change", (event) => {
+  const target = event.target;
+  console.log(target.value);
+  if (target.value === "credit card") {
+    showPayment("creditcard");
+  } else if (target.value === "paypal") {
+    showPayment("paypal");
+  } else if (target.value === "bitcoin") {
+    showPayment("bitcoin");
+  }
 });
 
-
 const emailValidator = () => {
-    const emailValue = emailInput.value;
-    const symbolIndex = emailValue.indexOf("@");
-    const periodIndex = emailValue.lastIndexOf(".");
-    if (symbolIndex > 1 && periodIndex > (symbolIndex + 1)) {
-        emailInput.style.borderColor = "inherit";
-        return true
-    } else {
-        emailInput.style.borderColor = "red";
-        return false
-    }
-}
+  const emailValue = emailInput.value;
+  const symbolIndex = emailValue.indexOf("@");
+  const periodIndex = emailValue.lastIndexOf(".");
+  if (symbolIndex > 1 && periodIndex > symbolIndex + 1) {
+    emailInput.style.borderColor = "initial";
+    return true;
+  } else {
+    emailInput.style.borderColor = "red";
+    return false;
+  }
+};
+
 const cardInfoValidator = () => {
-    cardNumberValidator();
-    cvvValidator();
-    zipValidator();
-    return true
-}
+  cardNumberValidator();
+  zipValidator();
+  cvvValidator();
+  return true;
+};
 
 const cardNumberValidator = () => {
-    const ccNumValue = ccNum.value;
-    let regex = /^[1-9][0-9]{12,15}$/
-    if (regex.test(ccNumValue)) {
-        ccLabel.style.color = "initial";
-        ccNum.style.borderColor = "initial"
-        ccError.innerHTML = ""
-        return true
+  const ccNumValue = ccNum.value;
+  let regex = /^[1-9][0-9]{12,15}$/;
+  if (regex.test(ccNumValue)) {
+    ccLabel.style.color = "initial";
+    ccNum.style.borderColor = "initial";
+    ccError.innerHTML = "";
+    return true;
+  } else {
+    ccNum.style.borderColor = "red";
+    if (ccNumValue.length <= 0) {
+      ccError.innerHTML = "Please enter a credit card number.";
     } else {
-        ccNum.style.borderColor = "red"
-        if (ccNumValue.length <= 0) {
-            ccError.innerHTML = "Please enter a credit card number."
-        } else {
-            ccError.innerHTML = "Please enter 13-16 digit card number."
-        }
-        return false
+      ccError.innerHTML = "Please enter 13-16 digit card number.";
     }
-
-}
+    return false;
+  }
+};
 
 const cvvValidator = () => {
-    const cvvValue = cvv.value;
-    let regex = /^\d{3}$/
-    if (regex.test(cvvValue)) {
-        cvv.style.borderColor = "initial"
-        return true
-    } else {
-        cvv.style.borderColor = "red"
-        return false
+  const cvvValue = cvv.value;
+  let regex = /^\d{3}$/;
+  if (regex.test(cvvValue)) {
+    cvv.style.borderColor = "initial";
+    ccError.innerHTML = "";
+    return true;
+  } else {
+    cvv.style.borderColor = "red";
+    if (ccError.innerHTML === "") {
+      ccError.innerHTML = "Please enter a 3 digit cvv number";
     }
-}
+    return false;
+  }
+};
 
 const zipValidator = () => {
-    const zipValue = zip.value;
-    let regex = /^\d{5}$/
-    if (regex.test(zipValue)) {
-        zip.style.borderColor = "initial"
-        return true
-    } else {
-        zip.style.borderColor = "red"
-        return false
+  const zipValue = zip.value;
+  let regex = /^\d{5}$/;
+  if (regex.test(zipValue)) {
+    zip.style.borderColor = "initial";
+    return true;
+  } else {
+    zip.style.borderColor = "red";
+    if (ccError.innerHTML === "") {
+      ccError.innerHTML = "Please enter a 5 digit zip code";
     }
-
-}
+    return false;
+  }
+};
 
 const inputRegexTest = (regex, inputValue, input) => {
-    if (regex.test(inputValue)) {
-        input.style.borderColor = 'initial';
-    } else {
-        input.style.borderColor = 'red';
-    }
-}
+  if (regex.test(inputValue)) {
+    input.style.borderColor = "initial";
+    return true;
+  } else {
+    input.style.borderColor = "red";
+    return false;
+  }
+};
+
 const nameValidator = () => {
-    const name = nameInput.value
-    var regex = /^[a-zA-Z ]{2,30}$/;
-    inputRegexTest(regex, name, nameInput);
-    console.log('Event handler working');
-}
+  const name = nameInput.value;
+  var regex = /^[a-zA-Z ]{2,30}$/;
+  if (inputRegexTest(regex, name, nameInput)) {
+    nameError.innerHTML = "";
+  } else {
+    nameError.innerHTML = "Please enter a name. Letters A-Z only.";
+  }
+};
 
 const activityValidator = () => {
-    for (let i = 0; i < checkboxes.length; i++) {
-        if (checkboxes[i].checked) {
-            console.log("A box is checked");
-            checkboxLegend.style.color = "inherit";
-            return true;
-        }
+  for (let i = 0; i < checkboxes.length; i++) {
+    if (checkboxes[i].checked) {
+      console.log("A box is checked");
+      checkboxLegend.style.color = "inherit";
+      return true;
     }
-    console.log("No box checked");
-    checkboxLegend.style.color = "red";
-    return false
-}
+  }
+  console.log("No box checked");
+  checkboxLegend.style.color = "red";
+  return false;
+};
 
-checkboxFieldset.addEventListener('change', (e) => {
-    if (!emailValidator()) {
-        e.preventDefault();
-    }
-    if (!nameValidator()) {
-        e.preventDefault();
-    }
-    if (!activityValidator()) {
-        e.preventDefault();
-    }
-})
+const paymentValidator = () => {
+  if (selectPaymentList.value === "select method") {
+    paymentError.innerHTML = "You must select a payment";
+  }
+};
 
-form.addEventListener('keyup', (e) => {
-    if (!emailValidator()) {
-        e.preventDefault();
-    }
-    if (!nameValidator()) {
-        e.preventDefault();
-    }
-    if (!activityValidator()) {
-        e.preventDefault();
-    }
-    if (!cardInfoValidator()) {
-        e.preventDefault();
-    }
+checkboxFieldset.addEventListener("change", (e) => {
+  activityValidator();
+});
 
-})
+emailInput.addEventListener("keyup", (e) => {
+  emailValidator();
+});
 
-form.addEventListener('submit', (e) => {
-    if (!emailValidator()) {
-        e.preventDefault();
-    }
-})
+nameInput.addEventListener("keyup", (e) => {
+  nameValidator();
+});
 
+paymentFieldset.addEventListener("keyup", (e) => {
+  cardInfoValidator();
+});
 
-const ccError = createErrorLabel(creditCard, cardCol, '');
+/**
+ *  Form Submit Event Listener
+ *  DOM Element => form
+ *  Event => Submit
+ *  If the emailValidator function returns false the preventDefault to stop the event
+ */
+
+form.addEventListener("submit", (e) => {
+  if (!emailValidator()) {
+    e.preventDefault();
+  }
+  if (!nameValidator()) {
+    e.preventDefault();
+  }
+  if (!activityValidator()) {
+    e.preventDefault();
+  }
+  if (!cardInfoValidator()) {
+    e.preventDefault();
+  }
+  if (!paymentValidator()) {
+    e.preventDefault();
+  }
+});
+
+/**
+ *
+ * Use JS to create error msg labels
+ *
+ */
+const ccError = createErrorLabel(creditCard, cardCol, "", "cc-error", "error");
+const nameError = createErrorLabel(
+  basicInfoFieldset,
+  nameInput,
+  "",
+  "name-error",
+  "error"
+);
+
+const emailError = createErrorLabel(
+  basicInfoFieldset,
+  emailInput,
+  "",
+  "email-error",
+  "error"
+);
+
+const paymentError = createErrorLabel(
+  paymentFieldset,
+  selectPaymentList,
+  "",
+  "pay-error",
+  "error"
+);
 
 createTotalElement(); // Create the total element when javascript is on so it can display total price after activities are checked
-paymentOptions[0].style.display = 'none'; // Hide the 'Select Payment Method' Option from being able to be selected
+paymentOptions[0].style.display = "none"; // Hide the 'Select Payment Method' Option from being able to be selected
 hideAllColorOptions(colorOptions); // Hide all the color options until a theme is selected
 hideElement(themeOptions[0]); // Hide 'Select Theme' in the design theme select list.
 hideElement(colorDiv); // hide the color list drop down box until a theme is selected
-hideElement(otherTitleInput); // hide otherTitleInput 
+hideElement(otherTitleInput); // hide otherTitleInput
 showPayment(); // hide the payment since no payment selection was passed into function
