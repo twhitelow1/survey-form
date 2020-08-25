@@ -38,6 +38,7 @@ const cardCol = document.querySelector("#card-col");
 const cvvCol = document.querySelector("#cvv-col");
 const basicInfoFieldset = document.querySelector(".basic-info");
 
+// Start the total cost at zero and use this to add the total cost of activities
 let totalCost = 0;
 
 /**
@@ -290,8 +291,27 @@ selectPaymentList.addEventListener("change", (event) => {
 });
 
 /**
- *  Form validator functions
+ *  Form validation functions
  */
+
+/**
+ *  Input Regex Test Function
+ * @param regex = regular expression to be checked
+ * @param inputValue = the value from the input to be compared to regex
+ * @param input = input to be styled red if regex doesn't match
+ * if regex test is true then change the input border color to the initial color
+ * else (regex failed) then change input border color to red to indicate erro
+ */
+
+const inputRegexTest = (regex, inputValue, input) => {
+    if (regex.test(inputValue)) {
+        input.style.borderColor = "initial";
+        return true;
+    } else {
+        input.style.borderColor = "red";
+        return false;
+    }
+};
 
 /**
  * Email Validator
@@ -335,18 +355,15 @@ const cardInfoValidator = () => {
 /**
  * Card Number Validator
  * @var regex = regular expression only accepting 13-16 digit numbers
- * if regex is true then set label color and input border to initial colors, and clear error msg. return true
- * else change input border to red, and if input was empty ask for a number, else ask for a 13-16 digit number and return false
+ * if regex test is true then clear error msg. return true
+ * else if input was empty ask for a number, else ask for a 13-16 digit number and return false
  */
 const cardNumberValidator = () => {
     let regex = /^[1-9][0-9]{12,15}$/;
-    if (regex.test(ccNum.value)) {
-        ccLabel.style.color = "initial";
-        ccNum.style.borderColor = "initial";
+    if (inputRegexTest(regex, ccNum.value, ccNum)) {
         ccError.innerHTML = "";
         return true;
     } else {
-        ccNum.style.borderColor = "red";
         if (ccNum.value.length <= 0) {
             ccError.innerHTML = "Please enter a credit card number.";
         } else {
@@ -360,26 +377,29 @@ const cardNumberValidator = () => {
 /**
  * CVV Validator
  * @var regex = regular expression only accepting 3 digits
- * if regex is true then set input border to initial color, and clear error msg. return true
- * else change input border to red
- *      if the error msg doesn't already have a msg then display the cvv error msg
- *      do this so the error msgs follow the flow of the form
+ * if regex is true then clear error msg. return true
+ * else if the error msg doesn't already have a msg then display the cvv error msg
  */
 
 const cvvValidator = () => {
     let regex = /^\d{3}$/;
-    if (regex.test(cvv.value)) {
-        cvv.style.borderColor = "initial";
+    if (inputRegexTest(regex, cvv.value, cvv)) {
         ccError.innerHTML = "";
         return true;
     } else {
-        cvv.style.borderColor = "red";
         if (ccError.innerHTML === "") {
             ccError.innerHTML = "Please enter a 3 digit cvv number";
         }
         return false;
     }
 };
+
+/**
+ * Zip Validator
+ * @var regex = regular expression only accepting 5 digits
+ * if regex is true then clear error msg. return true
+ * else if the error msg doesn't already have a msg then display the zip code error msg
+ */
 
 const zipValidator = () => {
     const zipValue = zip.value;
@@ -395,70 +415,73 @@ const zipValidator = () => {
 };
 
 /**
- * CVV Validator
- * @var regex = regular expression only accepting 3 digits
- * if regex is true then set input border to initial color, and clear error msg. return true
- * else change input border to red
- *      if the error msg doesn't already have a msg then display the cvv error msg
- *      do this so the error msgs follow the flow of the form
+ * Name Validator
+ * @var regex = regular expression only accepting Aa-Zz and must be 2-30 characters
+ * if regex is true then clear error msg. return true
+ * else if the error msg doesn't already have a msg then display the name error msg
  */
 
-const inputRegexTest = (regex, inputValue, input) => {
-    if (regex.test(inputValue)) {
-        input.style.borderColor = "initial";
-        return true;
-    } else {
-        input.style.borderColor = "red";
-        return false;
-    }
-};
-
 const nameValidator = () => {
-    const name = nameInput.value;
     var regex = /^[a-zA-Z ]{2,30}$/;
-    if (inputRegexTest(regex, name, nameInput)) {
+    if (inputRegexTest(regex, nameInput.value, nameInput)) {
         nameError.innerHTML = "";
     } else {
         nameError.innerHTML = "Please enter a name. Letters A-Z only.";
     }
 };
+/**
+ * Activity Validator
+ * loop through the checkboxes and if a checkbox is checked the return true
+ * if  a checkbox was not found to be checked in loop then no activities were picked so change 
+ * the legend font color to red and return false
+ */
 
 const activityValidator = () => {
     for (let i = 0; i < checkboxes.length; i++) {
         if (checkboxes[i].checked) {
-            console.log("A box is checked");
             checkboxLegend.style.color = "inherit";
             return true;
         }
     }
-    console.log("No box checked");
     checkboxLegend.style.color = "red";
     return false;
 };
 
+/**
+ *  Payment Validator
+ *  If the select payment list is on the default selection then return error msg
+ */
 const paymentValidator = () => {
     if (selectPaymentList.value === "select method") {
         paymentError.innerHTML = "You must select a payment";
+        return false
     } else {
         paymentError.innerHTML = "";
+        return true
     }
 };
 
+/**
+ *  Form Validator Event Listeners
+ */
+
+/** When the option in the payment option list changes run the payment validator */
 selectPaymentList.addEventListener("change", (e) => {
     paymentValidator();
 })
+/** When a checkbox fieldset changes run the activities validator */
 checkboxFieldset.addEventListener("change", (e) => {
     activityValidator();
 });
-
+/** When a key goes up while typing in the email input run the email validator */
 emailInput.addEventListener("keyup", (e) => {
     emailValidator();
 });
-
+/** When a key goes up while typing in the name input run the name validator */
 nameInput.addEventListener("keyup", (e) => {
     nameValidator();
 });
-
+/** When a key goes up while typing in a credit card infomation input run the payment and card info validator */
 paymentFieldset.addEventListener("keyup", (e) => {
     paymentValidator()
     cardInfoValidator();
@@ -468,7 +491,7 @@ paymentFieldset.addEventListener("keyup", (e) => {
  *  Form Submit Event Listener
  *  DOM Element => form
  *  Event => Submit
- *  If the emailValidator function returns false the preventDefault to stop the event
+ *  If the any of the validator functions returns false the preventDefault to stop the event
  */
 
 form.addEventListener("submit", (e) => {
@@ -490,9 +513,7 @@ form.addEventListener("submit", (e) => {
 });
 
 /**
- *
  * Use JS to create error msg labels
- *
  */
 const ccError = createErrorLabel(creditCard, cardCol, "", "cc-error", "error");
 const nameError = createErrorLabel(
