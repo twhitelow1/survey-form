@@ -56,6 +56,10 @@ const hideElement = (element) => {
 const changeFontColor = (element, color) => {
     element.style.color = color;
 }
+// Change element border color
+const changeBorderColor = (input, color) => {
+    input.style.borderColor = color;
+}
 
 /**
  * Begin Element Creation Functions
@@ -246,10 +250,10 @@ const showPayment = (payment) => {
 
 const inputRegexTest = (regex, inputValue, input) => {
     if (regex.test(inputValue)) {
-        input.style.borderColor = "initial";
+        changeBorderColor(input, "initial");
         return true;
     } else {
-        input.style.borderColor = "red";
+        changeBorderColor(input, "red");
         return false;
     }
 };
@@ -270,11 +274,11 @@ const emailValidator = () => {
     const symbolIndex = emailValue.indexOf("@");
     const periodIndex = emailValue.lastIndexOf(".");
     if (symbolIndex > 1 && periodIndex > symbolIndex + 1) {
-        emailInput.style.borderColor = "initial";
+        changeBorderColor(emailInput, "initial");
         emailError.innerHTML = "";
         return true;
     } else {
-        emailInput.style.borderColor = "red";
+        changeBorderColor(emailInput, "red");
         emailError.innerHTML = "Please provide a valid email address format - name@email.com";
         return false;
     }
